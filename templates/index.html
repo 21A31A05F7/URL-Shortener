@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+            background: #ffffff;
+            padding: 40px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            color: #333;
+        }
+        input[type="text"], select {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        button {
+            background-color: #5cb85c;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .short-url {
+            color: #4285f4;
+            font-weight: bold;
+        }
+        .icon-container {
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .icon-container:hover {
+            color: #333;
+        }
+        .icon {
+            font-size: 24px;
+            margin-right: 5px;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>URL Shortener</h1>
+        <form method="POST" action="/shorten">
+            <input type="text" name="url" placeholder="Enter your long URL here" required>
+            <select name="expiration">
+                <option value="1">1 Day</option>
+                <option value="7">7 Days</option>
+                <option value="30">30 Days</option>
+                <option value="forever">No Expiration</option>
+            </select>
+            <button type="submit">Shorten URL</button>
+        </form>
+
+        {% if short_url %}
+        <div class="result">
+            <p>Your shortened URL:</p>
+            <a class="short-url" href="{{ short_url }}" target="_blank">{{ short_url }}</a>
+            <span class="icon-container" onclick="copyToClipboard('{{ short_url }}')">
+                <i class="icon">📋</i>Copy
+            </span>
+        </div>
+        {% endif %}
+
+        <div class="footer">
+            Built by <a href="#">Your Name</a> &copy; 2024
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboard(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            alert('Short URL copied to clipboard');
+        }
+    </script>
+</body>
+</html>
